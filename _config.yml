@@ -1,0 +1,13 @@
+# Site settings
+title: "Leksand"
+email: "w.dob@hotmail.com"
+description: "Professional Accounting Services"
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+
+twitter_username:
+github_username:
+
+# Build settings
+markdown: kramdown
+permalink: pretty
