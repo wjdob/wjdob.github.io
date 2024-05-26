@@ -7,18 +7,16 @@ $(function() {
         },
         submitSuccess: function($form, event) {
             event.preventDefault(); // prevent default submit behaviour
+
             // get values from FORM
             var name = $("input#name").val();
             var email = $("input#email").val();
             var phone = $("input#phone").val();
             var message = $("textarea#message").val();
-            var firstName = name; // For Success/Failure Message
-            // Check for white space in name for Success/Fail message
-            if (firstName.indexOf(' ') >= 0) {
-                firstName = name.split(' ').slice(0, -1).join(' ');
-            }
+            var firstName = name.split(' ')[0]; // For Success/Failure Message
+
             $.ajax({
-                url: "././mail/contact_me.php",
+                url: "{{ site.baseurl }}/mail/contact_me.php", // Update path to match your setup
                 type: "POST",
                 data: {
                     name: name,
@@ -30,27 +28,30 @@ $(function() {
                 success: function() {
                     // Success message
                     $('#success').html("<div class='alert alert-success'>");
-                    $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-                        .append("</button>");
+                    $('#success > .alert-success')
+                        .html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
                     $('#success > .alert-success')
                         .append("<strong>Your message has been sent. </strong>");
                     $('#success > .alert-success')
                         .append('</div>');
 
-                    //clear all fields
+                    // Clear all fields
                     $('#contactForm').trigger("reset");
                 },
                 error: function() {
                     // Fail message
                     $('#success').html("<div class='alert alert-danger'>");
-                    $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-                        .append("</button>");
-                    $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!");
-                    $('#success > .alert-danger').append('</div>');
-                    //clear all fields
+                    $('#success > .alert-danger')
+                        .html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>");
+                    $('#success > .alert-danger')
+                        .append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!</strong>");
+                    $('#success > .alert-danger')
+                        .append('</div>');
+
+                    // Clear all fields
                     $('#contactForm').trigger("reset");
                 },
-            })
+            });
         },
         filter: function() {
             return $(this).is(":visible");
@@ -63,8 +64,7 @@ $(function() {
     });
 });
 
-
-/*When clicking on Full hide fail/success boxes */
+/* When clicking on Full hide fail/success boxes */
 $('#name').focus(function() {
     $('#success').html('');
 });
